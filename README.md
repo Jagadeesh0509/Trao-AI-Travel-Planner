@@ -1,6 +1,6 @@
 # Trao — AI-Powered Travel Planner 🌍✈️
 
-Trao is a premium, production-ready AI travel planner powered by **Advanced Generative AI**. Instantly generate comprehensive day-by-day travel itineraries, discover matching hotels, compute itemized budget estimates, view local weather forecasts, pack using smart checklist recommendations, and easily share your plans with the world.
+Trao is a premium, production-ready AI travel planner. Instantly generate comprehensive day-by-day travel itineraries, discover matching hotels, compute itemized budget estimates, view local weather forecasts, pack using smart checklist recommendations, and easily share your plans with the world.
 
 ---
 
