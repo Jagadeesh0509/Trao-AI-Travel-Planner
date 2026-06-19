@@ -50,6 +50,10 @@ export interface Trip {
   _id: string;
   userId: string;
   destination: string;
+  title?: string;
+  startDate?: string;
+  isPublic?: boolean;
+  isCompleted?: boolean;
   durationDays: number;
   budgetTier: BudgetTier;
   interests: string[];
@@ -59,6 +63,40 @@ export interface Trip {
   packingList: PackingItem[];
   season: string;
   climateNotes: string;
+  travelStyle?: string;
+  chatHistory?: { role: 'user' | 'model'; message: string; timestamp?: string }[];
+  weatherReport?: {
+    current: {
+      tempC: number;
+      condition: string;
+      rainProbabilityPercent: number;
+      humidityPercent: number;
+      windSpeedKph: number;
+    };
+    forecast: {
+      day: string;
+      tempMinC: number;
+      tempMaxC: number;
+      condition: string;
+      rainProbabilityPercent: number;
+    }[];
+    warnings: string[];
+    generatedAt?: string;
+  };
+  recommendations?: {
+    name: string;
+    category: 'Attraction' | 'Hidden Gem' | 'Restaurant' | 'Cafe' | 'Experience';
+    description: string;
+    estimatedCostUSD: number;
+    whyLoveIt: string;
+  }[];
+  mapMarkers?: {
+    name: string;
+    lat: number;
+    lng: number;
+    dayNumber?: number;
+    type: 'activity' | 'hotel';
+  }[];
   createdAt: string;
   updatedAt: string;
 }

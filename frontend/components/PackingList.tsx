@@ -6,6 +6,7 @@ import { tripsApi } from '@/utils/api';
 interface PackingListProps {
   trip: Trip;
   onTripUpdated: (trip: Trip) => void;
+  onOpenRegenerateModal?: () => void;
 }
 
 const CATEGORY_CONFIG: Record<PackingCategory, { icon: string; color: string; bg: string }> = {
@@ -17,7 +18,7 @@ const CATEGORY_CONFIG: Record<PackingCategory, { icon: string; color: string; bg
 
 const CATEGORY_ORDER: PackingCategory[] = ['Documents', 'Clothing', 'Gear', 'Other'];
 
-export default function PackingList({ trip, onTripUpdated }: PackingListProps) {
+export default function PackingList({ trip, onTripUpdated, onOpenRegenerateModal }: PackingListProps) {
   const handleToggle = async (itemId: string) => {
     const updatedPacking = trip.packingList.map((item: PackingItem) =>
       item._id === itemId ? { ...item, isPacked: !item.isPacked } : item
@@ -29,6 +30,39 @@ export default function PackingList({ trip, onTripUpdated }: PackingListProps) {
     } catch (err) {
       console.error('Failed to toggle packing item', err);
     }
+  };
+
+  const handleDownloadList = () => {
+    const header = `TRAO PACKING CHECKLIST - ${trip.destination.toUpperCase()}\n`;
+    const subheader = `Duration: ${trip.durationDays} Days | Style: ${trip.travelStyle || 'Leisure'} | Season: ${trip.season || 'Flexible'}\n`;
+    const divider = `========================================\n\n`;
+    
+    const categories: Record<string, string[]> = { Documents: [], Clothing: [], Gear: [], Other: [] };
+    trip.packingList.forEach(item => {
+      const cat = item.category || 'Other';
+      if (categories[cat]) {
+        categories[cat].push(`[${item.isPacked ? 'x' : ' '}] ${item.item}`);
+      } else {
+        categories.Other.push(`[${item.isPacked ? 'x' : ' '}] ${item.item}`);
+      }
+    });
+    
+    let content = header + subheader + divider;
+    for (const [cat, items] of Object.entries(categories)) {
+      if (items.length > 0) {
+        content += `${cat.toUpperCase()}:\n`;
+        content += items.join('\n') + '\n\n';
+      }
+    }
+    
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `packing-list-${trip.destination.toLowerCase().replace(/[^a-z0-9]/g, '-')}.txt`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const totalItems = trip.packingList.length;
@@ -53,17 +87,36 @@ export default function PackingList({ trip, onTripUpdated }: PackingListProps) {
     <div>
       {/* Header & Progress */}
       <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-4">
           <div>
             <h3 className="text-xl font-black text-white">⛈️ AI Packing Assistant</h3>
             <p className="text-xs text-slate-400 mt-0.5">
               {trip.climateNotes || `Smart checklist for ${trip.destination}`}
             </p>
           </div>
-          <div className="text-right">
-            <div className="text-2xl font-black gradient-text">{progressPercent}%</div>
-            <div className="text-xs text-slate-500">{packedItems}/{totalItems} packed</div>
+          <div className="flex gap-2">
+            <button
+              id="download-packing-btn"
+              onClick={handleDownloadList}
+              className="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+            >
+              📥 Download txt
+            </button>
+            {onOpenRegenerateModal && (
+              <button
+                id="regen-packing-modal-btn"
+                onClick={onOpenRegenerateModal}
+                className="px-3 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 rounded-lg text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5"
+              >
+                🔄 AI Regenerate
+              </button>
+            )}
           </div>
+        </div>
+
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs text-slate-500 font-semibold">Overall Progress</span>
+          <span className="text-xs text-slate-400 font-bold">{progressPercent}% ({packedItems}/{totalItems} packed)</span>
         </div>
 
         {/* Progress Bar */}

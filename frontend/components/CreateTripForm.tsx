@@ -25,6 +25,7 @@ const BUDGET_TIERS: { value: BudgetTier; label: string; desc: string; color: str
 export default function CreateTripForm({ onTripCreated, onClose }: CreateTripFormProps) {
   const [destination, setDestination] = useState('');
   const [durationDays, setDurationDays] = useState(5);
+  const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [budgetTier, setBudgetTier] = useState<BudgetTier>('Medium');
   const [selectedInterests, setSelectedInterests] = useState<string[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -61,10 +62,11 @@ export default function CreateTripForm({ onTripCreated, onClose }: CreateTripFor
     }, 2000);
 
     try {
-      const formData: CreateTripFormData = {
+      const formData = {
         destination: destination.trim(),
         durationDays,
         budgetTier,
+        startDate: new Date(startDate),
         interests: selectedInterests.map((i) => i.replace(/^[^\s]+\s/, '')), // strip emoji prefix
       };
 
@@ -144,6 +146,19 @@ export default function CreateTripForm({ onTripCreated, onClose }: CreateTripFor
               <span>1 day</span>
               <span>14 days</span>
             </div>
+          </div>
+
+          {/* Start Date */}
+          <div>
+            <label className="input-label">Start Date 📅</label>
+            <input
+              id="trip-start-date-input"
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="input-field text-sm"
+              disabled={isGenerating}
+            />
           </div>
 
           {/* Budget Tier */}

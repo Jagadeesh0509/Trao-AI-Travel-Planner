@@ -5,15 +5,15 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 // ─── Token Helpers ────────────────────────────────────────────────────────────
 export const getToken = (): string | null => {
   if (typeof window === 'undefined') return null;
-  return localStorage.getItem('token');
+  return sessionStorage.getItem('token');
 };
 
 export const setToken = (token: string): void => {
-  localStorage.setItem('token', token);
+  sessionStorage.setItem('token', token);
 };
 
 export const removeToken = (): void => {
-  localStorage.removeItem('token');
+  sessionStorage.removeItem('token');
 };
 
 // ─── Core Fetch Wrapper ───────────────────────────────────────────────────────
@@ -80,7 +80,10 @@ export const tripsApi = {
   getById: (id: string): Promise<Trip> =>
     apiFetch<Trip>(`/api/trips/${id}`),
 
-  generate: (formData: CreateTripFormData): Promise<Trip> =>
+  getPublicById: (id: string): Promise<Trip> =>
+    apiFetch<Trip>(`/api/trips/public/${id}`, {}, false),
+
+  generate: (formData: any): Promise<Trip> =>
     apiFetch<Trip>('/api/trips', {
       method: 'POST',
       body: JSON.stringify(formData),
@@ -101,5 +104,28 @@ export const tripsApi = {
     apiFetch<Trip>(`/api/trips/${id}/regenerate-day`, {
       method: 'POST',
       body: JSON.stringify({ dayNumber, userFeedback }),
+    }),
+
+  duplicate: (id: string): Promise<Trip> =>
+    apiFetch<Trip>(`/api/trips/${id}/duplicate`, {
+      method: 'POST',
+    }),
+
+  chat: (id: string, message: string): Promise<{ response: string; chatHistory: any[] }> =>
+    apiFetch<{ response: string; chatHistory: any[] }>(`/api/trips/${id}/chat`, {
+      method: 'POST',
+      body: JSON.stringify({ message }),
+    }),
+
+  getWeather: (id: string): Promise<any> =>
+    apiFetch<any>(`/api/trips/${id}/weather`),
+
+  getRecommendations: (id: string): Promise<any[]> =>
+    apiFetch<any[]>(`/api/trips/${id}/recommendations`),
+
+  regeneratePacking: (id: string, options: { travelStyle: string; season: string; weather: string }): Promise<Trip> =>
+    apiFetch<Trip>(`/api/trips/${id}/regenerate-packing`, {
+      method: 'POST',
+      body: JSON.stringify(options),
     }),
 };

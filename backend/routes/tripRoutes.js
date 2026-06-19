@@ -8,9 +8,19 @@ const {
   updateTrip,
   deleteTrip,
   regenerateDay,
+  getPublicTripById,
+  duplicateTrip,
+  chatWithTripAssistant,
+  getTripWeather,
+  getTripRecommendations,
+  regenerateTripPackingList,
 } = require('../controllers/tripController');
 
-// All routes are protected by JWT auth middleware
+// @route   GET  /api/trips/public/:id
+// @desc    Get a public shared trip (no auth required)
+router.get('/public/:id', getPublicTripById);
+
+// All routes below are protected by JWT auth middleware
 router.use(auth);
 
 // @route   GET  /api/trips
@@ -30,5 +40,20 @@ router.delete('/:id', deleteTrip);
 
 // @route   POST /api/trips/:id/regenerate-day
 router.post('/:id/regenerate-day', regenerateDay);
+
+// @route   POST /api/trips/:id/duplicate
+router.post('/:id/duplicate', duplicateTrip);
+
+// @route   POST /api/trips/:id/chat
+router.post('/:id/chat', chatWithTripAssistant);
+
+// @route   GET  /api/trips/:id/weather
+router.get('/:id/weather', getTripWeather);
+
+// @route   GET  /api/trips/:id/recommendations
+router.get('/:id/recommendations', getTripRecommendations);
+
+// @route   POST /api/trips/:id/regenerate-packing
+router.post('/:id/regenerate-packing', regenerateTripPackingList);
 
 module.exports = router;

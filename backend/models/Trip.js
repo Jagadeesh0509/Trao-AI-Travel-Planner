@@ -43,6 +43,10 @@ const TripSchema = new mongoose.Schema(
       index: true,
     },
     destination: { type: String, required: true, trim: true },
+    title: { type: String, trim: true },
+    startDate: { type: Date, default: Date.now },
+    isPublic: { type: Boolean, default: false },
+    isCompleted: { type: Boolean, default: false },
     durationDays: { type: Number, required: true, min: 1, max: 30 },
     budgetTier: {
       type: String,
@@ -63,6 +67,38 @@ const TripSchema = new mongoose.Schema(
     // Metadata for weather packing assistant
     season: { type: String, default: '' },
     climateNotes: { type: String, default: '' },
+    travelStyle: { type: String, default: 'Leisure' },
+    chatHistory: [
+      {
+        role: { type: String, enum: ['user', 'model'], required: true },
+        message: { type: String, required: true },
+        timestamp: { type: Date, default: Date.now },
+      }
+    ],
+    weatherReport: {
+      current: { type: Object },
+      forecast: [{ type: Object }],
+      warnings: [{ type: String }],
+      generatedAt: { type: Date },
+    },
+    recommendations: [
+      {
+        name: { type: String, required: true },
+        category: { type: String, default: 'Attraction' },
+        description: { type: String, default: '' },
+        estimatedCostUSD: { type: Number, default: 0 },
+        whyLoveIt: { type: String, default: '' },
+      }
+    ],
+    mapMarkers: [
+      {
+        name: { type: String, required: true },
+        lat: { type: Number, required: true },
+        lng: { type: Number, required: true },
+        dayNumber: { type: Number },
+        type: { type: String, enum: ['activity', 'hotel'] },
+      }
+    ],
   },
   { timestamps: true }
 );
