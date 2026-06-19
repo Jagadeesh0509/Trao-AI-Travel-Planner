@@ -1,6 +1,6 @@
 # Trao — AI-Powered Travel Planner 🌍✈️
 
-Trao is a premium, production-ready AI travel planner powered by **Google Gemini 2.5 Flash**. Instantly generate comprehensive day-by-day travel itineraries, discover matching hotels, compute itemized budget estimates, view local weather forecasts, pack using smart checklist recommendations, and easily share your plans with the world.
+Trao is a premium, production-ready AI travel planner powered by **Advanced Generative AI**. Instantly generate comprehensive day-by-day travel itineraries, discover matching hotels, compute itemized budget estimates, view local weather forecasts, pack using smart checklist recommendations, and easily share your plans with the world.
 
 ---
 
@@ -30,7 +30,7 @@ Trao is a premium, production-ready AI travel planner powered by **Google Gemini
 - **Frontend**: Next.js 16 (App Router) + TypeScript + Tailwind CSS (v4)
 - **Backend**: Node.js + Express.js + Mongoose (Object Modeling)
 - **Database**: MongoDB Atlas (Cloud Cluster)
-- **AI Engine**: Google Gemini 2.5 Flash (Generative Content API)
+- **AI Engine**: Advanced Generative AI Model
 - **Auth**: JWT (JSON Web Tokens) + Google Identity OAuth + bcryptjs
 
 ---
@@ -119,12 +119,12 @@ All stateful endpoints (except Auth register/login and Public share views) requi
 
 ### Trips & Workspace
 - `GET /api/trips` — List all generated itineraries for the authenticated user.
-- `POST /api/trips` — Call Gemini and build a new travel plan itinerary.
+- `POST /api/trips` — Build a new travel plan itinerary via AI.
 - `GET /api/trips/:id` — Load full trip workspace details by database ID.
 - `PUT /api/trips/:id` — Update trip details (itineraries, checklist packs, completed/visited exploration states).
 - `DELETE /api/trips/:id` — Permanently delete an itinerary.
 - `POST /api/trips/:id/duplicate` — Clone an itinerary (restarts with uncompleted state).
-- `POST /api/trips/:id/regenerate-day` — Use Gemini to rewrite a specific day plan based on feedback instructions.
+- `POST /api/trips/:id/regenerate-day` — Rewrite a specific day plan based on feedback instructions via AI.
 - `POST /api/trips/:id/chat` — Context-aware messaging with the AI travel companion.
 - `GET /api/trips/:id/weather` — Access or generate cached weather and warning reports.
 - `GET /api/trips/:id/recommendations` — Fetch local custom recommendations.

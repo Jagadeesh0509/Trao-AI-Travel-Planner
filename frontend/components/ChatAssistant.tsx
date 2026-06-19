@@ -21,13 +21,13 @@ const QUICK_PROMPTS = [
 // Simple markdown formatter helper to display bullet points, bold text, and line breaks nicely
 function formatMarkdown(text: string) {
   if (!text) return '';
-  
+
   // Replace newlines with breaks
   let formatted = text;
-  
+
   // Format bold (**text** or __text__)
   formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  
+
   // Format list items
   formatted = formatted.split('\n').map(line => {
     if (line.trim().startsWith('- ') || line.trim().startsWith('* ')) {
@@ -35,10 +35,10 @@ function formatMarkdown(text: string) {
     }
     return line;
   }).join('\n');
-  
+
   // Format clean line breaks
   formatted = formatted.replace(/\n/g, '<br />');
-  
+
   return <div dangerouslySetInnerHTML={{ __html: formatted }} className="text-slate-300 space-y-1" />;
 }
 
@@ -46,7 +46,7 @@ export default function ChatAssistant({ trip, onTripUpdated }: ChatAssistantProp
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   const history = trip.chatHistory || [];
 
   const scrollToBottom = () => {
@@ -66,7 +66,7 @@ export default function ChatAssistant({ trip, onTripUpdated }: ChatAssistantProp
 
     try {
       const response = await tripsApi.chat(trip._id, trimmed);
-      
+
       // Update parent trip state with the returned new chatHistory
       onTripUpdated({
         ...trip,
@@ -135,22 +135,20 @@ export default function ChatAssistant({ trip, onTripUpdated }: ChatAssistantProp
             >
               {/* Avatar */}
               <div
-                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white ${
-                  isUser
+                className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold text-white ${isUser
                     ? 'bg-indigo-600/80 border border-indigo-400/20'
                     : 'bg-gradient-to-br from-indigo-500 to-purple-600'
-                }`}
+                  }`}
               >
                 {isUser ? '👤' : '🤖'}
               </div>
 
               {/* Message Bubble */}
               <div
-                className={`p-3.5 rounded-2xl max-w-[85%] border text-xs sm:text-sm leading-relaxed ${
-                  isUser
+                className={`p-3.5 rounded-2xl max-w-[85%] border text-xs sm:text-sm leading-relaxed ${isUser
                     ? 'bg-indigo-600/15 border-indigo-500/20 text-white rounded-tr-none'
                     : 'bg-white/3 border-white/5 text-slate-200 rounded-tl-none'
-                }`}
+                  }`}
               >
                 {isUser ? (
                   <p className="text-slate-100 font-medium whitespace-pre-wrap">{msg.message}</p>
