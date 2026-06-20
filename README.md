@@ -8,28 +8,6 @@ The platform combines AI-generated travel planning with practical travel tools i
 
 ---
 
-## 🌟 Premium Features
-
-- 🤖 **AI-Powered Itinerary Generation** — Detailed daily routes and activities tailored to custom cities, trip durations, budget tiers, and traveler interests.
-- 📊 **Interactive Analytics Dashboard** — Real-time metrics for **Total Trips**, **Countries Explored** (only unique regions actually completed/visited), **Total Capital Investment**, and **Upcoming/Scheduled Trips**.
-- ✅ **Exploration Status Tracking** — Inline checkboxes and badges to separate *planned* trips from *explored/visited* countries.
-- 🏨 **Smart Hotel Recommendations** — Budget-matched accommodation suggestions ranging from cozy hostels to premium luxury resorts.
-- 💰 **Budget & Capital Estimations** — Interactive cost guides with visual percent breakdowns across transportation, lodging, dining, and activities.
-- 🧳 **Dynamic Weather Packing Assistant** — Packing checklists generated based on the destination's season, travel styles, and climate notes. Pack items can be checked off in real time or regenerated dynamically.
-- 📍 **Interactive Route Maps** — Visual markers and routes highlighting hotel lodging and daily activity spots.
-- 💬 **Context-Aware Travel Assistant** — An AI chat companion right inside your workspace, ready to answer questions, suggest local dining, suggest packing lists, and help refine your trip details.
-- ⛈️ **Weather Forecasts & Safety Advisories** — Live 7-day weather predictions showing temperature spreads, rain probabilities, conditions, and travel warnings (e.g. UV level warnings, sudden rainfall advisories).
-- 📅 **Calendar Forecast Dates** — Real dates (e.g., Jun 19, Jun 20) computed dynamically relative to your trip starting date and mapped directly onto forecast days.
-- 🔗 **Public Collaboration Links** — Share trip itineraries instantly with a clean public-view page format (no authentication required for viewers).
-- 🖨️ **Clean PDF & Print Export** — Print your itinerary or save it as a PDF via a custom-styled printable sheet layout.
-- 🔑 **Next-Gen Authentication & Session Isolation**:
-  - JWT token auth with strict database isolation.
-  - One-click Google OAuth Sign-in/Sign-up.
-  - **Multi-Tab Session Isolation** (`sessionStorage` integrated) — Run multiple accounts on different tabs concurrently without state overlaps or sudden logouts.
-
----
-
-
 # Technology Stack
 
 ## Frontend
